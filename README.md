@@ -40,3 +40,19 @@ This repository contains self-service resources for development teams.
 
 5. Once the PR is approved and merged, ArgoCD will automatically create your namespace!
 
+
+## Azure Resources
+
+This repository also contains Azure resource definitions managed through Azure Service Operator and ArgoCD.
+
+### Structure
+
+- `azure-resources/resource-groups/` - Azure Resource Group definitions
+- `azure-resources/storage-accounts/` - Azure Storage Account definitions
+
+### Workflow
+
+1. Define Azure resources as Kubernetes manifests
+2. Commit and push changes to GitHub
+3. ArgoCD automatically syncs and applies changes
+4. Azure Service Operator creates/updates Azure resources

@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: azure-resources
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/tom171296/platform-self-service.git
+        revision: HEAD
+        directories:
+          - path: azure-resources/*
+  template:
+    metadata:
+      name: 'azure-{{path.basename}}'
+    spec:
+      project: azure-resources
+      source:
+        repoURL: https://github.com/tom171296/platform-self-service.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=false
