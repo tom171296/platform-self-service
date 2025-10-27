@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: TEAM_NAME-APP_NAME
+  namespace: argocd
+spec:
+  project: dev-teams
+
+  source:
+    repoURL: 'https://github.com/TEAM_NAME/APP_NAME.git'
+    targetRevision: HEAD
+    path: k8s
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: TEAM_NAME-ENVIRONMENT
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false  # Namespace should already exist via self-service request

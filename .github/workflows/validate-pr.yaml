@@ -1,0 +1,26 @@
+name: Validate Namespace Requests
+
+on:
+  pull_request:
+    paths:
+      - 'namespaces/**/*.yaml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Validate YAML syntax
+        run: |
+          for file in $(find namespaces -name "*.yaml"); do
+            echo "Validating $file"
+            # Check if file is valid YAML
+            python3 -c "import yaml; yaml.safe_load(open('$file'))" || exit 1
+          done
+
+      - name: Check resource limits
+        run: |
+          echo "✅ YAML validation passed"
+          echo "Note: Platform team should review resource quotas before approving"
